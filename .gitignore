@@ -4,3 +4,6 @@ uploads/*
 */logs/*
 */cache/*
 */lucene/*
+
+# Configuration files
+config/parameters.yml
