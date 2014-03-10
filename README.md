@@ -37,3 +37,5 @@ The application is now ready to work!
     ```php
     $app->mount('/admin/hello', new Controller\Admin\HelloController());
     ```
+
+For more information and documentation refer to [Silex](http://silex.sensiolabs.org/) and [Symfony](http://symfony.com/) documentation.
