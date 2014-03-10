@@ -38,4 +38,4 @@ The application is now ready to work!
     $app->mount('/admin/hello', new Controller\Admin\HelloController());
     ```
 
-For more information and documentation refer to [Silex](http://silex.sensiolabs.org/) and [Symfony](http://symfony.com/) documentation.
+For more information, refer to the [Keratine library](https://github.com/Cellules/keratine) and to the documentation for [Silex](http://silex.sensiolabs.org/) and [Symfony](http://symfony.com/).
