@@ -1,0 +1,28 @@
+# Interface d'administration
+
+website: Retour sur le site
+users: Utilisateurs
+account: Mon compte
+help: Aide
+logout: Déconnexion
+search: Rechercher
+sign in: Connexion
+username: Identifiant
+password: Mot de passe
+remember me: Se souvenir de moi
+submit: Valider
+back: Retour
+list: Liste
+new: Nouveau
+edit: Modifier
+delete: Supprimer
+create: Créer
+update: Modifier
+save: Enregistrer
+
+loggedAt: date d'enregistrement
+action: action
+object: élément
+create: création
+update: modification
+remove: suppression

@@ -1,0 +1,20 @@
+{
+    "name": "cellules/keratine-skeleton",
+    "description": "A skeleton for Keratine CMS project",
+    "type": "framework",
+    "repositories": [
+        {
+            "url": "https://github.com/zendframework/ZendSearch.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "cellules/keratine": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

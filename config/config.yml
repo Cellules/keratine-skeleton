@@ -1,0 +1,114 @@
+# config.yml
+
+site_title: 'My Keratine Application'
+
+copyright: 2013 Keratine
+version: "3.0"
+credits:
+    title: Cellules.tv
+    url: http://cellules.tv/
+
+debug: true
+
+locale: fr
+
+session:
+    # name: _SESS        # The cookie name (_SESS by default)
+    # id: ~              # The session id (null by default)
+    # cookie_lifetime: ~ # Cookie lifetime
+    # cookie_path: ~     # Cookie path
+    # cookie_domain: ~   # Cookie domain
+    # cookie_secure: ~   # Cookie secure (HTTPS)
+    # cookie_httponly: ~ # Whether the cookie is http only
+
+twig:
+    path:
+        - %root_dir%/templates
+    templates: []
+    options:
+        cache: %root_dir%/var/cache/twig
+    form:
+        templates:
+            - form/form_div_layout.html.twig
+            - form/fields.html.twig
+
+translator:
+    ressources: []
+
+database:
+    options:
+        driver: pdo_mysql
+        host: localhost
+        dbname: ~
+        user: ~
+        password: ~
+        charset: utf8
+        driverOptions:
+            1002: SET NAMES utf8
+    orm:
+        proxies_dir: %root_dir%/var/cache/doctrine/proxy
+        proxies_namespace: Doctrine\ORM\Proxy\Proxy
+        auto_generate_proxies: true
+        em:
+            options:
+                mappings:
+                    entities:
+                        type: annotation                    # entity definition
+                        namespace: Entity                   # your classes namespace
+                        path: %root_dir%/src/Entity         # path to your entity classes
+                        use_simple_annotation_reader: false # use simple annotation
+                    translatable:
+                        type: annotation
+                        namespace: Gedmo\Translatable\Entity
+                        path: %root_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity/MappedSuperclass
+                        use_simple_annotation_reader: false
+                    loggable:
+                        type: annotation
+                        namespace: Gedmo\Loggable\Entity
+                        path: "%root_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        use_simple_annotation_reader: false
+                    # tree:
+                    #     type: annotation
+                    #     namespace: Gedmo\Tree\Entity
+                    #     path: "%root_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                    #     use_simple_annotation_reader: false
+
+security:
+    firewalls:
+        admin:
+            pattern: ^/admin
+            form:
+                login_path: /login
+                check_path: /admin/login_check
+            logout:
+                logout_path: /admin/logout
+        public:
+            pattern:  ^/
+            anonymous: []
+
+    # encoder:
+    #    digest: ~
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN]
+
+    access_rules:
+        - [^/admin, ROLE_ADMIN]
+
+swiftmailer:
+    host: localhost
+    port: 25
+    username: ~
+    password: ~
+    encryption: ~
+    auth_mode: ~
+
+monolog:
+    logfile: %root_dir%/var/logs/silex_dev.log
+
+profiler:
+    cache_dir: %root_dir%/var/cache/profiler
+
+zendsearch:
+    indices_path: []

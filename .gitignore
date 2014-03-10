@@ -1,13 +1,6 @@
-# Bootstrap
-app/bootstrap*
-
-# Symfony directories
+# Directories
 vendor/*
+uploads/*
 */logs/*
 */cache/*
-web/uploads/*
-web/bundles/*
-
-# Configuration files
-app/config/parameters.ini
-app/config/parameters.yml
+*/lucene/*

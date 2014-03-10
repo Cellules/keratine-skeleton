@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{{ 'Interface d\'administration'|trans }}{% endblock %}</title>
+        {% block stylesheets %}
+        {% stylesheets '@bootstrap_css' filter='' output='assets/css/bootstrap.css' %}
+            <link href="{{ app.request.basepath }}/{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets %}
+        {% stylesheets '@admin_css' filter='' output='assets/css/admin.css' %}
+            <link href="{{ app.request.basepath }}/{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ app.request.basepath }}/favicon.ico" />
+    </head>
+    <body>
+
+        <!-- Toolbar -->
+        {% include 'admin/toolbar.html.twig' %}
+
+        <!-- Page container -->
+        <div class="container">
+
+            <!-- Header -->
+            {% if is_granted('ROLE_ADMIN') %}
+                <header class="header">
+                    <h1><a href="{{ path('dashboard') }}">{{ site_title }}</a></h1>
+                    <h2>{{ 'interface d’administration'|trans }}</h2>
+                </header>
+            {% endif %}
+
+            <!-- Navigation -->
+            {% if is_granted('ROLE_ADMIN') %}
+                <nav class="navigation" role="navigation">
+                   {% include 'admin/navigation.html.twig' %}
+                </nav>
+            {% endif %}
+
+            <!-- Notifications -->
+            {% for message in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.session.flashbag.get('info') %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.session.flashbag.get('warning') %}
+                <div class="alert alert-warning">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.session.flashbag.get('error') %}
+                <div class="alert alert-error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+           <!-- Content -->
+            <div class="content">
+
+                {% block content %}{% endblock %}
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <div class="container">
+                <p>© {{ app.copyright }} - {{ app.version }}</p>
+                <p><a href="{{ app.credits.url }}">{{ app.credits.title }}</a></p>
+            </div>
+        </footer>
+
+        {% block javascripts %}
+            {% javascripts '@bootstrap_js' debug=true filter='' output='assets/js/bootstrap.js' %}
+                <script src="{{ app.request.basepath }}/{{ asset_url }}" type="text/javascript"></script>
+            {% endjavascripts %}
+            <script type="text/javascript">window.basePath = '{{ app.request.basepath }}';</script>
+            <script data-main="{{ app.request.basepath }}/js/admin/admin.js" src="{{ app.request.basepath }}/js/vendor/requirejs/require.js"></script>
+        {% endblock %}
+
+    </body>
+</html>

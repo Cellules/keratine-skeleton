@@ -1,0 +1,99 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block content -%}
+
+    {% set _route = app.request.attributes.get('_route') %}
+
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            <ul class="nav nav-pills actions">
+
+                <li{% if prefix == _route %} class="active"{% endif %}>
+                    <a href="{{ path(prefix) }}">
+                        <span class="glyphicon glyphicon-list"></span> {{ 'list'|trans }}
+                    </a>
+                </li>
+
+                <li{% if prefix ~'_new' == _route %} class="active"{% endif %}>
+                    <a href="{{ path(prefix ~'_new') }}">
+                        <span class="glyphicon glyphicon-edit"></span> {{ 'new'|trans }}
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="col-sm-8 text-right">
+
+            {{ form(filtersForm) }}
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+        {% set class = 'table table-striped entity-list' %}
+        {% if sortable %}
+            {% set class = class ~ ' sortable' %}
+        {% endif %}
+        <table class="{{ class }}" {% if sortable %}data-sortable-uri="{{ path(prefix ~ '_position', { id: '__id__', position: '__position__' }) }}"{% endif %}>
+            <thead>
+                <tr>
+                    {% for column, options in columns %}
+                        <th>
+                            {% if options.label is defined %}
+                                {% if options.sortable %}
+                                    {% set neworder = (sort == column and order|lower == 'asc') ? 'desc' : 'asc' %}
+                                    <a href="{{ path(prefix, {sort: column, order: neworder, filters: filters}) }}">
+                                        {{ options.label }}
+                                        {% if sort == column %}
+                                            {% if order|lower == 'asc' %}
+                                                <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                                            {% else %}
+                                                <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </a>
+                                {% else %}
+                                    {{ options.label }}
+                                {% endif %}
+                            {% endif %}
+                        </th>
+                    {% endfor %}
+                    <th class="entity-actions"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr data-entity-id="{{ entity.id }}">
+                    {% for column, options in columns %}
+                        <td>
+                            {% if attribute(entity, column) is defined %}
+                                {% if options.widget is defined %}
+                                    {{ options.widget.render(entity, column)|raw }}
+                                {% else %}
+                                    {{ attribute(entity, column) }}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        <div class="entity-actions btn-group">
+                            <a class="btn btn-link action update" href="{{ path(prefix ~'_edit', { 'id': entity.id }) }}">
+                                <span class="glyphicon glyphicon-edit"></span> {{ 'edit'|trans }}
+                            </a>
+                            <a class="btn btn-link action delete" href="{{ path(prefix ~'_delete', { 'id': entity.id }) }}">
+                                <span class="glyphicon glyphicon-trash"></span> {{ 'delete'|trans }}
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

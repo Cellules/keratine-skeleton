@@ -1,0 +1,28 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block content %}
+
+    <h3>{{ 'dashboard'|trans|capitalize }}</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ 'loggedAt'|trans|capitalize }}</th>
+                <th>{{ 'username'|trans|capitalize }}</th>
+                <th>{{ 'action'|trans|capitalize }}</th>
+                <th>{{ 'object'|trans|capitalize }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in entities %}
+                <tr class="{% if entity.action == 'remove' %}danger{% elseif entity.action == 'create' %}success{% endif %}">
+                    <td>{{ entity.loggedAt|date('d-m-Y H:i:s') }}</td>
+                    <td>{{ entity.username }}</td>
+                    <td>{{ entity.action|trans }}</td>
+                    <td>{{ entity.objectClass }} {{ entity.objectId }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

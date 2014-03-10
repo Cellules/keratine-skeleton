@@ -1,0 +1,30 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block content %}
+
+    <p class="lead">{{ 'Results for query "%s" :'|trans|format(query) }}</p>
+    <p><small>{{ '%d results of %d documents indexed'|trans|format(results|length, numDocs) }}</small></p>
+
+    <table class="table table-striped">
+        {% for result in results %}
+            <tr data-id="{{ result.id }}" data-score="{{ result.score }}">
+                <td>
+                    {% if result.entityClass == 'Entity\\Theme' %}
+                        <a href="{{ path('theme_edit', { 'id': result.document.id }) }}">{{ result.title }}</a>
+                    {% elseif result.entityClass == 'Entity\\Story' %}
+                        <a href="{{ path('story_edit', { 'id': result.document.id }) }}">{{ result.title }}</a>
+                    {% elseif result.entityClass == 'Entity\\Module' %}
+                        <a href="{{ path('module_edit', { 'id': result.document.id }) }}">{{ result.title }}</a>
+                    {% else %}
+                        {{ result.title }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>{{ 'No results'|trans }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

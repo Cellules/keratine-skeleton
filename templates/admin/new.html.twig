@@ -1,0 +1,17 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block content -%}
+
+    <h3>{{ 'New' }}</h3>
+
+    {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+
+        <div class="form-group form-actions">
+            <button type="submit" id="{{ prefix }}_submit" class="btn btn-primary">{{ 'create'|trans }}</button>
+        </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

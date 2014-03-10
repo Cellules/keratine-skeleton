@@ -1,0 +1,52 @@
+{% block image_widget %}
+    {% spaceless %}
+        {{ block('form_widget') }}
+        {% if image_url is defined and image_url is not null %}
+            <div class="control-overview">
+                <img class="img-responsive" src="{{ app.request.basepath }}/{{ image_url }}"/>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+
+{% block image_crop_widget %}
+    {% spaceless %}
+        {{ form_rest(form) }}
+        {% if image_url is defined and image_url is not null %}
+            <div class="control-overview">
+                <img class="img-responsive jcrop" {% if aspect_ratio is defined and aspect_ratio is not null  %}data-aspect-ratio="{{ aspect_ratio }}"{% endif %} src="{{ app.request.basepath }}/{{ image_url }}?v={{ "now"|date("YmdHis") }}"/>
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+
+{% block color_widget %}
+{% spaceless %}
+    {% set type = type|default('color') %}
+    {{ block('form_widget_simple') }}
+{% endspaceless %}
+{% endblock color_widget %}
+
+
+{% block duration_widget %}
+{% spaceless %}
+    {% set type = type|default('time') %}
+    {% set attr = attr|merge({ 'step': 1}) %}
+    {{ block('form_widget_simple') }}
+{% endspaceless %}
+{% endblock duration_widget %}
+
+
+{% block file_explorer_widget %}
+{% spaceless %}
+    {% set type = type|default('text') %}
+    <div class="input-group fileexplorer">
+        {{ block('form_widget_simple') }}
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" data-explorer-uri="{{ path(explorer_path, explorer_params) }}">{{ 'Browse'|trans }}</button>
+        </span>
+    </div>
+{% endspaceless %}
+{% endblock file_explorer_widget %}

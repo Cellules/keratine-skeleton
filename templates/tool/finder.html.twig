@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>File explorer</title>
+
+        <!-- jQuery and jQuery UI (REQUIRED) -->
+        <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+
+        <!-- elFinder CSS (REQUIRED) -->
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ app.request.basepath }}/js/vendor/elfinder/css/elfinder.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ app.request.basepath }}/js/vendor/elfinder/css/theme.css">
+
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+            #elfinder {
+                height: 100% !important;
+            }
+        </style>
+
+        <!-- elFinder JS (REQUIRED) -->
+        <script type="text/javascript" src="{{ app.request.basepath }}/js/vendor/elfinder/js/elfinder.min.js"></script>
+
+        <!-- elFinder translation (OPTIONAL) -->
+        <script type="text/javascript" src="{{ app.request.basepath }}/js/vendor/elfinder/js/i18n/elfinder.fr.js"></script>
+
+        <!-- elFinder initialization (REQUIRED) -->
+        <script type="text/javascript" charset="utf-8">
+            function getUrlParam(paramName) {
+                var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i') ;
+                var match = window.location.search.match(reParam) ;
+                return (match && match.length > 1) ? match[1] : '' ;
+            }
+            if (window.opener) {
+                var caller = window.opener.document.getElementById(getUrlParam('caller'));
+            }
+            // Documentation for client options:
+            // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+            $(document).ready(function() {
+                $('#elfinder').elfinder({
+                    url : '{{ path("finder_connector", {path: path}) }}', // connector URL (REQUIRED)
+                    lang: '{{ app.request.locale }}',       // language (OPTIONAL)
+                    {% if onlyMimes %}onlyMimes: {{onlyMimes|raw}},{% endif %}
+                    {% if ui %}ui: {{ui|raw}},{% endif %}
+                    {% if uiOptions %}uiOptions : {{uiOptions|raw}},{% endif %}
+                    width: 'auto',
+                    resizable: true,
+                    getFileCallback : function(file) {
+                        if (window.opener) {
+                            window.opener.jQuery(caller).trigger('change', [file])
+                            window.close();
+                        }
+                    },
+                    commandsOptions : {
+                        getfile : {
+                            onlyURL  : false,
+                        }
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+
+        <!-- Element where elFinder will be created (REQUIRED) -->
+        <div id="elfinder"></div>
+
+    </body>
+</html>

@@ -1,0 +1,42 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block content %}
+
+	<form class="form-signin" action="{{ path('admin_login_check') }}" method="post">
+
+		<h3>{{ 'sign in'|trans }}</h3>
+
+		{% if error %}
+		    <div class="alert alert-danger">{{ error }}</div>
+		{% endif %}
+
+		<input type="text" name="_username" value="{{ last_username }}" placeholder="{{ 'username'|trans }}" />
+
+		<input type="password" name="_password" placeholder="{{ 'password'|trans }}" />
+
+		<label class="checkbox">
+			<input type="checkbox" value="remember-me"> {{ 'remember me'|trans }}
+		</label>
+
+		{#
+		    If you want to control the URL the user
+		    is redirected to on success (more details below)
+		    <input type="hidden" name="_target_path" value="/account" />
+		#}
+	
+		<div class="form-actions">
+			<button type="submit" class="btn btn-large btn-primary">{{ 'sign in'|trans }}</button>
+		</form>
+
+	</form>
+
+{% endblock %}
+
+{% block javascript %}
+	{{ parent() }}
+	<script>
+		(function($){
+			$('.form-signin').find('input:first').focus();
+		})(jQuery)
+	</script>
+{% endblock %}
