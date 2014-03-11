@@ -39,8 +39,14 @@ class IndexController extends Controller
 
         $entities = $queryBuilder->getQuery()->getResult();
 
+        // list of associations between classes of entities and routes's prefixes of the application
+        $routes = array(
+            // 'Entity/Post' => 'post', // example
+        );
+
 		return $app['twig']->render('admin/index.html.twig', array(
             'entities' => $entities,
+            'routes'   => $routes,
         ));
 	}
 

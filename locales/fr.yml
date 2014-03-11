@@ -19,8 +19,8 @@ delete: Supprimer
 create: Créer
 update: Modifier
 save: Enregistrer
-
 loggedAt: date d'enregistrement
+user: utilisateur
 action: action
 object: élément
 create: création

@@ -8,9 +8,10 @@
         <thead>
             <tr>
                 <th>{{ 'loggedAt'|trans|capitalize }}</th>
-                <th>{{ 'username'|trans|capitalize }}</th>
+                <th>{{ 'user'|trans|capitalize }}</th>
                 <th>{{ 'action'|trans|capitalize }}</th>
                 <th>{{ 'object'|trans|capitalize }}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +20,8 @@
                     <td>{{ entity.loggedAt|date('d-m-Y H:i:s') }}</td>
                     <td>{{ entity.username }}</td>
                     <td>{{ entity.action|trans }}</td>
-                    <td>{{ entity.objectClass }} {{ entity.objectId }}</td>
+                    <td>{{ routes[entity.objectClass]|trans|capitalize }}</td>
+                    <td><a href="{{ path(routes[entity.objectClass] ~'_edit', {id: entity.objectId }) }}">{{ 'edit'|trans|capitalize }}</a></td>
                 </tr>
             {% endfor %}
         </tbody>
