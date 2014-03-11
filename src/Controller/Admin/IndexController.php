@@ -1,6 +1,8 @@
 <?php
 namespace Controller\Admin;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 use Keratine\Controller\Controller;
 
 use Silex\Application;
@@ -19,7 +21,8 @@ class IndexController extends Controller
 
 		$controllers = $app['controllers_factory'];
 
-		$controllers->get('/', array($this, 'indexAction'))
+		$controllers->get('/{page}', array($this, 'indexAction'))
+            ->value('page', 1)
 			->bind('dashboard');
 
 		$controllers->get('/help', array($this, 'helpAction'))
@@ -37,7 +40,14 @@ class IndexController extends Controller
 
         $queryBuilder->orderBy('log.loggedAt', 'DESC');
 
-        $entities = $queryBuilder->getQuery()->getResult();
+        $nbResultsPerPage = 30;
+        $firstResult = ($request->get('page', 1) - 1) * $nbResultsPerPage;
+
+        $queryBuilder->setFirstResult($firstResult)
+                     ->setMaxResults($nbResultsPerPage);
+
+        // $entities = $queryBuilder->getQuery()->getResult();
+        $entities = new Paginator($queryBuilder->getQuery(), $fetchJoinCollection = false);
 
         // list of associations between classes of entities and routes's prefixes of the application
         $routes = array(
@@ -46,6 +56,7 @@ class IndexController extends Controller
 
 		return $app['twig']->render('admin/index.html.twig', array(
             'entities' => $entities,
+            'nbPages'  => ceil($entities->count() / $nbResultsPerPage),
             'routes'   => $routes,
         ));
 	}

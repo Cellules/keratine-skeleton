@@ -1,5 +1,7 @@
 {% extends "admin/layout.html.twig" %}
 
+{% from "snippets/pagination.html.twig" import pagination %}
+
 {% block content %}
 
     <h3>{{ 'dashboard'|trans|capitalize }}</h3>
@@ -21,10 +23,14 @@
                     <td>{{ entity.username }}</td>
                     <td>{{ entity.action|trans }}</td>
                     <td>{{ routes[entity.objectClass]|trans|capitalize }}</td>
-                    <td><a href="{{ path(routes[entity.objectClass] ~'_edit', {id: entity.objectId }) }}">{{ 'edit'|trans|capitalize }}</a></td>
+                    <td>{% if routes[entity.objectClass] %}<a href="{{ path(routes[entity.objectClass] ~'_edit', {id: entity.objectId }) }}">{{ 'edit'|trans|capitalize }}</a>{% endif %}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="text-center">
+        {{ pagination('dashboard', app.request.get('page'), nbPages) }}
+    </div>
 
 {% endblock %}
