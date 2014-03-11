@@ -15,25 +15,25 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class IndexController extends Controller
 {
 
-	public function connect(Application $app)
-	{
+    public function connect(Application $app)
+    {
         $this->container = $app;
 
-		$controllers = $app['controllers_factory'];
+        $controllers = $app['controllers_factory'];
 
-		$controllers->get('/{page}', array($this, 'indexAction'))
+        $controllers->get('/dashboard/{page}', array($this, 'dashboardAction'))
             ->value('page', 1)
-			->bind('dashboard');
+            ->bind('dashboard');
 
-		$controllers->get('/help', array($this, 'helpAction'))
-			->bind('help');
+        $controllers->get('/help', array($this, 'helpAction'))
+            ->bind('help');
 
-		return $controllers;
-	}
+        return $controllers;
+    }
 
 
-	public function indexAction(Request $request, Application $app)
-	{
+    public function dashboardAction(Request $request, Application $app)
+    {
         $repository = $this->get('orm.em')->getRepository('Gedmo\Loggable\Entity\LogEntry');
 
         $queryBuilder = $repository->createQueryBuilder('log');
@@ -49,22 +49,24 @@ class IndexController extends Controller
         // $entities = $queryBuilder->getQuery()->getResult();
         $entities = new Paginator($queryBuilder->getQuery(), $fetchJoinCollection = false);
 
-        // list of associations between classes of entities and routes's prefixes of the application
         $routes = array(
-            // 'Entity/Post' => 'post', // example
+            'Entity\Theme'  => 'theme',
+            'Entity\Story'  => 'story',
+            'Entity\Module' => 'module',
+            'Entity\Event'  => 'event',
         );
 
-		return $app['twig']->render('admin/index.html.twig', array(
+        return $app['twig']->render('admin/index.html.twig', array(
             'entities' => $entities,
             'nbPages'  => ceil($entities->count() / $nbResultsPerPage),
             'routes'   => $routes,
         ));
-	}
+    }
 
 
-	public function helpAction(Request $request, Application $app)
-	{
-		return $app['twig']->render('admin/help.html.twig', array());
-	}
+    public function helpAction(Request $request, Application $app)
+    {
+        return $app['twig']->render('admin/help.html.twig', array());
+    }
 
 }
