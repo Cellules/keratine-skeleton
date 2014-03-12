@@ -21,6 +21,9 @@ class IndexController extends Controller
 
         $controllers = $app['controllers_factory'];
 
+        $controllers->get('/', array($this, 'indexAction'))
+            ->bind('admin_root');
+
         $controllers->get('/dashboard/{page}', array($this, 'dashboardAction'))
             ->value('page', 1)
             ->bind('dashboard');
@@ -29,6 +32,12 @@ class IndexController extends Controller
             ->bind('help');
 
         return $controllers;
+    }
+
+
+    public function indexAction(Request $request, Application $app)
+    {
+        return $this->redirect($this->generateUrl('dashboard'));
     }
 
 
