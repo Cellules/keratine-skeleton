@@ -5,5 +5,9 @@ uploads/*
 */cache/*
 */lucene/*
 
+# Various files
+composer.lock
+phpunit.xml
+
 # Configuration files
 config/parameters.yml
