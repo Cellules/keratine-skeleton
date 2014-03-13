@@ -8,11 +8,39 @@ define([
 	'jquery.i18n.language',
     'jquery-ui',
 	'ckeditor',
+    'chosen',
     'lightbox',
     'bootstrap-collection',
-    'fileexplorer'
+    'fileexplorer',
+    'TextboxList.Autocomplete'
 ],
 function ($) {
+
+    // jQuery browser fallback
+    if (typeof $.browser === 'undefined') {
+        $.browser = {
+            version: -1,
+            msie: function () {
+                if (navigator.appName == 'Microsoft Internet Explorer') {
+                    var ua = navigator.userAgent;
+                    var re  = new RegExp("MSIE ([0-9]{1,}[.0-9]{0,})");
+                    if (re.exec(ua) !== null) {
+                        $.browser.version = parseFloat( RegExp.$1 );
+                    }
+                    return true;
+                }
+                return false;
+            }
+        };
+    }
+
+    var addStyleLink = function (href) {
+        var link = document.createElement('link');
+        link.href = window.basePath +'/'+ href;
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    };
 
 	var initAjaxlinks = function () {
 		$('a.ajax').on('click', function (event) {
@@ -55,6 +83,7 @@ function ($) {
 	var initForm = function () {
 		createFieldset( $('.content').find('.control-group') );
 		// initFormPrototypes();
+        initChosen();
 		initCKEditor();
 	};
 
@@ -119,6 +148,27 @@ function ($) {
 		});
 	};
 
+    var initChosen = function () {
+        $(".chosen-select").chosen({});
+    };
+
+    var initTextboxList = function () {
+        this.addStyleLink('/js/vendor/TextboxList/TextboxList.css');
+        this.addStyleLink('/js/vendor/TextboxList/TextboxList.Autocomplete.css');
+
+        $('.textbox-list').each(function () {
+            var t = new $.TextboxList(this, {
+                plugins: {
+                    autocomplete: {}
+                }
+            });
+            t.plugins['autocomplete'].setValues([
+                // [31, 'value'],
+            ]);
+            t.getContainer().addClass('form-control');
+        });
+    };
+
 	var initCKEditor = function () {
 		CKEDITOR.replaceAll(function (textarea, config) {
             if (false === textarea.classList.contains('rich')) return false;
@@ -132,18 +182,6 @@ function ($) {
             config.enterMode = CKEDITOR.ENTER_BR;
             config.shiftEnterMode = CKEDITOR.ENTER_P;
         });
-
-		// [].slice.call(document.querySelectorAll('.rich')).forEach(function (element) {
-		// 	CKEDITOR.replace(element, {
-		// 		language: $.i18n().locale,
-		// 		uiColor: '#f5f5f5',
-		// 		toolbar: 'Basic',
-		// 		baseHref: window.basePath,
-		// 		// http://docs.ckeditor.com/#!/guide/dev_file_browse_upload
-		// 		filebrowserBrowseUrl: window.basePath + '/js/vendor/elfinder/elfinder.html',
-		// 		// filebrowserUploadUrl: '/uploader/upload.php',
-		// 	});
-		// });
 	};
 
 	getUserLocale = function () {

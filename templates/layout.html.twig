@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title '' %} - {{ site_title }}</title>
+        <title>{% block title '' %} - {{ app.site_title|trans }}</title>
 
         <link href="{{ app.request.basepath }}/css/main.css" rel="stylesheet" type="text/css" />
     </head>
