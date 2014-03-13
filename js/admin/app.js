@@ -84,6 +84,7 @@ function ($) {
 		createFieldset( $('.content').find('.control-group') );
 		// initFormPrototypes();
         initChosen();
+        initTextboxList();
 		initCKEditor();
 	};
 
@@ -153,8 +154,8 @@ function ($) {
     };
 
     var initTextboxList = function () {
-        this.addStyleLink('/js/vendor/TextboxList/TextboxList.css');
-        this.addStyleLink('/js/vendor/TextboxList/TextboxList.Autocomplete.css');
+        addStyleLink('/js/vendor/TextboxList/TextboxList.css');
+        addStyleLink('/js/vendor/TextboxList/TextboxList.Autocomplete.css');
 
         $('.textbox-list').each(function () {
             var t = new $.TextboxList(this, {
