@@ -97,3 +97,13 @@
     </div>
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        // auto submit filters form on change
+        document.forms['filters'].onchange = function () {
+            this.submit();
+        };
+    </script>
+{% endblock %}
