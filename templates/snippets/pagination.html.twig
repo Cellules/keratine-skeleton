@@ -1,4 +1,4 @@
-{% macro pagination(route, current, nbPages) %}
+{% macro pagination(route, current, nbPages, chunk) %}
 {% spaceless %}
 {% if nbPages > 1 %}
 <ul class="pagination">
@@ -9,7 +9,9 @@
             <a href="{{ path(route, {'page': current - 1}) }}">&laquo;</a>
         {% endif %}
     </li>
-    {% for page in range(1, nbPages) %}
+    {% set chunk = chunk|default(5) %}
+    {% set page_range = range(max(1, (current - chunk)), min(nbPages, (current + chunk))) %}
+    {% for page in page_range %}
         <li{% if page == current %} class="active"{% endif %}>
             <a href="{{ path(route, {'page': page}) }}">{{ page }}</a>
         </li>
