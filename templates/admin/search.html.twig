@@ -8,17 +8,7 @@
     <table class="table table-striped">
         {% for result in results %}
             <tr data-id="{{ result.id }}" data-score="{{ result.score }}">
-                <td>
-                    {% if result.entityClass == 'Entity\\Theme' %}
-                        <a href="{{ path('theme_edit', { 'id': result.document.id }) }}">{{ result.title }}</a>
-                    {% elseif result.entityClass == 'Entity\\Story' %}
-                        <a href="{{ path('story_edit', { 'id': result.document.id }) }}">{{ result.title }}</a>
-                    {% elseif result.entityClass == 'Entity\\Module' %}
-                        <a href="{{ path('module_edit', { 'id': result.document.id }) }}">{{ result.title }}</a>
-                    {% else %}
-                        {{ result.title }}
-                    {% endif %}
-                </td>
+                <td>{{ result.title }}</td>
             </tr>
         {% else %}
             <tr>

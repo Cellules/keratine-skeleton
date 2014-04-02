@@ -10,7 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use ZendSearch\Lucene\Search\QueryParser;
+use ZendSearch\Lucene\Analysis\Analyzer\Analyzer;
+use ZendSearch\Lucene\Search;
+use ZendSearch\Lucene\Index;
 
 class SearchController extends Controller
 {
@@ -36,8 +38,15 @@ class SearchController extends Controller
         $numDocs = $this->get('zendsearch')->numDocs();
 
         // parse query string and return a Query object.
-        // "~" is append to query string to process a fuzzy query (or not. cannot be used with multiterm query)
-        $query = QueryParser::parse($queryString, 'UTF-8');
+        // $query = Search\QueryParser::parse($queryString, 'UTF-8');
+
+        $queryTokens = Analyzer::getDefault()->tokenize($queryString, 'UTF-8');
+
+        $query = new Search\Query\Boolean();
+
+        foreach ($queryTokens as $token) {
+            $query->addSubquery( new Search\Query\Fuzzy(new Index\Term($token->getTermText()), 0.3), null);
+        }
 
         // process query
 		$results = $this->get('zendsearch')->find($query);
