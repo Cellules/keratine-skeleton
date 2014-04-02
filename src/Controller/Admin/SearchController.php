@@ -45,7 +45,7 @@ class SearchController extends Controller
         $query = new Search\Query\Boolean();
 
         foreach ($queryTokens as $token) {
-            $query->addSubquery( new Search\Query\Fuzzy(new Index\Term($token->getTermText()), 0.3), null);
+            $query->addSubquery( new Search\Query\Fuzzy(new Index\Term($token->getTermText()), 0.5), null);
         }
 
         // process query
