@@ -3,5 +3,5 @@
     RewriteEngine On
     # RewriteBase /
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index_dev.php [L]
+    RewriteRule ^ index.php [L]
 </IfModule>
