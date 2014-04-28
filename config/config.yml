@@ -106,6 +106,7 @@ swiftmailer:
 
 monolog:
     logfile: %root_dir%/var/logs/silex_dev.log
+    level: 300 # = Monolog\Logger::Warning
 
 profiler:
     cache_dir: %root_dir%/var/cache/profiler
