@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <title>{% block title %}{{ app.site_title|striptags }}{% endblock %}</title>
 
-        <link href="{{ app.request.basepath }}/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/css/main.css') }}" rel="stylesheet" type="text/css" />
     </head>
     <body>
         {% block content %}{% endblock %}
