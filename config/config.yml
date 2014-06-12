@@ -33,7 +33,8 @@ twig:
             - form/fields.html.twig
 
 translator:
-    ressources: []
+    ressources:
+        fr: %root_dir%/locales/fr.yml
 
 database:
     options:

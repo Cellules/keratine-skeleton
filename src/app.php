@@ -1,12 +1,21 @@
 <?php
 use Keratine\Application\Application;
 
+use Symfony\Component\Config\FileLocator;
 use Keratine\Config\ConfigurationLoader;
+use Keratine\Config\Loader\YamlFileLoader;
 
-$loader = new ConfigurationLoader(__DIR__.'/../config/', array('config.yml', 'parameters.yml'));
+$configLocator = new FileLocator(__DIR__.'/../config/');
+
+// load configuration
+$loader = new ConfigurationLoader($configLocator, array('config.yml'));
 $loader->addParameter('root_dir', realpath(__DIR__.'/..'));
 $config = $loader->load();
 
-$app = new Application($config);
+// load parameters
+$loader = new YamlFileLoader($configLocator);
+$parameters = $loader->load('parameters.yml');
+
+$app = new Application($config, $parameters);
 
 return $app;
