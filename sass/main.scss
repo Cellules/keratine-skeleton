@@ -1,0 +1,51 @@
+@import "compass";
+
+// customize bootstrap variables here:
+@import "variables";
+@import "bootstrap";
+
+// Settings --------------------------------------------------------------
+
+$legacy-support-for-ie: false;
+$experimental-support-for-opera: true;
+$legacy-support-for-mozilla: true;
+
+// Variables --------------------------------------------------------------
+
+// Font Sizes --------------------------------------------------------------
+
+$base-font-size: 16px;
+$base-line-height: 24px;
+@include establish-baseline;
+
+// Font-Faces --------------------------------------------------------------
+
+// @include font-face(
+//     "DIN",
+//     font-files("din_regular-webfont.woff", woff,
+//                "din_regular-webfont.ttf", truetype,
+//                "din_regular-webfont.svg", svg),
+//     "din_regular-webfont.eot",
+//     "normal",
+//     "normal"
+// );
+
+// Base Styles --------------------------------------------------------------
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+// a {
+//     @include link-colors($main-color, $hover-color);
+//     &:hover {
+//         text-decoration: none;
+//     }
+// }
